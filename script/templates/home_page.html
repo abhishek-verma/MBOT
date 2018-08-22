@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>MEMEBOT</title>
+    <style type="text/css">
+      body {
+        background: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1;
+        margin: 0;
+        min-width: 960px;
+        padding: 0;
+      }
+
+      .img_class{
+        object-fit: contain;
+        margin-left: 450px;
+        margin-top: 50px;
+      }
+
+      img{
+        height: 500px;
+        width: 400px;
+        object-fit: contain;
+      }
+
+      .navigational {
+      margin-left: 500px;
+    }
+    </style>
+
+    <script type="text/javascript">
+        var list = JSON.parse('{{ meme_data | tojson | safe}}');
+        var count = -1;
+        var values = new Array(list.length-1);
+        for(var i =0; i<list.length;i++)
+        {
+          values[i] = new Array(2);
+        }
+
+        function disable()
+        {
+          document.getElementById("selected").disabled = true;
+          document.getElementById("deselected").disabled = true;
+        }
+
+        function nextImage()
+        {
+          document.getElementById("selected").disabled = false;
+          document.getElementById("deselected").disabled = false;
+          if(count < list.length-1)
+          {
+            count = count + 1;
+            document.getElementById("image_id").src = list[count].imgSrc;
+          }
+        }
+
+        function previousImage()
+        {
+          //document.write(list[count].imgSrc);
+          document.getElementById("selected").disabled = false;
+          document.getElementById("deselected").disabled = false;
+          if(count == list.length)
+            count = count -1;
+          if(count > 0)
+          {
+            count = count - 1;
+            document.getElementById("image_id").src = list[count].imgSrc;
+          }
+        }
+        function radioSelect()
+        {
+          values[count][0] = document.getElementById("selected").checked;
+          values[count][1] = list[count].imgId;
+          document.getElementById("textbox_hidden").value = values;
+        }
+    </script>
+  </head>
+
+  <body onload="disable()">
+    <form method="post" name="myform" id="myform">
+      <div class="img_class">
+        <img src="" alt="temp image" id="image_id" />
+      </div>
+      </br>
+      <div class="navigational">
+        <input type="button" name="previous" value="Previous" onclick="previousImage()"/>
+        <input type="radio" name="selected" id="selected" value = 1 onclick="radioSelect()">Select</input>
+        <input type="radio" name="selected" id="deselected" value = 0 onclick="radioSelect()" >Deselect&nbsp;&nbsp;</input>
+        <input type="button" name="next" value="Next" onclick="nextImage()"/>
+        </br>
+        </br>
+        <input type="Submit" name="submit" value="Submit"/>
+        <input type="text" name="textbox" id="textbox_hidden" size="90"/>
+      </div>
+    </form>
+  </body>
+</html>
