@@ -73,10 +73,14 @@
         }
         function radioSelect()
         {
-          values[count][0] = document.getElementById("selected").checked;
-          values[count][1] = list[count].imgId;
-          document.getElementById("textbox_hidden").value = values;
+          values[count][1] = document.getElementById("selected").checked;
+          values[count][0] = list[count].id;
+          var json_var = JSON.stringify(values)
+          //document.write(json_var)
+          document.getElementById("textbox_hidden").value = json_var;
         }
+
+
     </script>
   </head>
 

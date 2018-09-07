@@ -18,14 +18,20 @@ def scrape_memes():
 @app.route("/", methods = ['POST', 'GET'])
 def home():
     #local_url = 'images/nba-finals-game-t-cavaliers-vs-warriors-tonight-at-9-5596587.png'
-    req = 'http://127.0.0.1:5000/api/memes/all'
+    req = 'http://127.0.0.1:5000/api/memes/selection/all'  #change this url
     r = requests.get(url= req)
     meme_data = json.loads(r.content.decode('utf-8'))
-    '''if request.method == 'POST':
+    if request.method == 'POST':
         selectedValues = request.form['textbox']
-        print(selectedValues)
-        return (selectedValues)'''
-    return render_template('home_page.html', **locals())
+        json_selectedValues = json.loads(selectedValues)
+
+        #convert to json dict
+        json_list = []
+        
+
+        return (str(meme_data))
+    else:
+        return render_template('home_page.html', **locals())
 
 
 if __name__ == "__main__":
